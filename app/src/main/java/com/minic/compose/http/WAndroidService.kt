@@ -1,11 +1,10 @@
 package com.minic.kt.data.api
 
 import com.minic.kt.data.model.BResponse
-import com.minic.kt.data.model.gank.PagingData
-import com.minic.kt.data.model.gank.home.*
+import com.minic.kt.data.model.gank.home.Article
+import com.minic.kt.data.model.gank.home.ArticleData
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 /**
  * 描述: Retrofit Service
@@ -14,12 +13,6 @@ import retrofit2.http.Query
  */
 
 interface WAndroidService {
-    /**
-     * Banner
-     */
-    @GET("banner/json")
-    suspend fun banners(): BResponse<MutableList<BannerData>>
-
     /**
      * 文章列表
      */
@@ -32,21 +25,4 @@ interface WAndroidService {
     @GET("article/top/json")
     suspend fun articleTop(): BResponse<MutableList<ArticleData>>
 
-    /**
-     * 项目分类
-     */
-    @GET("project/tree/json")
-    suspend fun projectTree(): BResponse<MutableList<ProjectTree>>
-
-    /**
-     * 项目列表数据
-     */
-    @GET("project/list/{page}/json")
-    suspend fun projectList(@Path("page") page: Int, @Query("cid") cid: Int): BResponse<PagingData<ArticleData>>
-
-    /**
-     * 体系首页
-     */
-    @GET("tree/json")
-    suspend fun systemTree(): BResponse<MutableList<SystemTree>>
 }

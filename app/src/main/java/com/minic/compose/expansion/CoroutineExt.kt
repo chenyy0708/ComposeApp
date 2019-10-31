@@ -11,7 +11,7 @@ import kotlin.coroutines.resumeWithException
  * 日期: 2019-10-23 15:01
  */
 
-suspend fun <T> BResponse<T>.awaitResponse(catchBlock: suspend (Throwable) -> Unit = {}): T? {
+suspend fun <T> BResponse<T>.awaitResponse(catchBlock: (Throwable) -> Unit = {}): T? {
     var result: T? = null
     try {
         result = suspendCancellableCoroutine<T> { cont ->
