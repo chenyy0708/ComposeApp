@@ -12,10 +12,13 @@ import androidx.ui.core.setContent
 import androidx.ui.foundation.Clickable
 import androidx.ui.foundation.DrawImage
 import androidx.ui.foundation.VerticalScroller
+import androidx.ui.graphics.Color
 import androidx.ui.layout.*
 import androidx.ui.material.Divider
 import androidx.ui.material.MaterialTheme
 import androidx.ui.material.ripple.Ripple
+import androidx.ui.material.surface.Surface
+import androidx.ui.text.style.TextOverflow
 import com.minic.compose.expansion.createImage
 import com.minic.compose.expansion.logD
 import com.minic.compose.utils.PicassoLoader
@@ -55,7 +58,6 @@ fun MyApp(articles: MutableList<ArticleData>) {
         VerticalScroller {
             Column {
                 ArticleItems(articles)
-                ArticleDivider()
             }
         }
     }
@@ -64,8 +66,8 @@ fun MyApp(articles: MutableList<ArticleData>) {
 @Composable
 fun ArticleItems(articles: MutableList<ArticleData>) {
     articles.forEach {
-        Text(it.title)
         CreateArticleItem(it)
+        ArticleDivider()
     }
 }
 
@@ -77,25 +79,66 @@ fun CreateArticleItem(articleData: ArticleData) {
     Ripple(bounded = true) {
         // 水波纹
         Clickable(onClick = { logD("点击文章") }) {
-            Padding(padding = 16.dp) {
-                FlexRow {
-                    flexible(1f) {
-                        Column(mainAxisSize = LayoutSize.Expand) {
-                            createImage(
-                                type = PicassoLoader.ROUND,
-                                url = "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2018939532,1617516463&fm=26&gp=0.jpg"
-                            )?.let { image ->
-                                Container(width = 30.dp, height = 30.dp) {
-                                    DrawImage(image)
+            Padding(padding = 15.dp) {
+                FlexColumn {
+                    inflexible {
+                        // 头像、作者、发布时间、公众号
+                        FlexRow(crossAxisAlignment = CrossAxisAlignment.Center) {
+                            // 头像
+                            inflexible {
+                                createImage(
+                                    type = PicassoLoader.ROUND,
+                                    url = App.INSTANCE.resources.getStringArray(R.array.author_imgs).random()
+                                )?.let { image ->
+                                    Container(width = 25.dp, height = 25.dp) {
+                                        DrawImage(image)
+                                    }
                                 }
+                            }
+                            // Margin间距
+                            inflexible {
+                                WidthSpacer(width = 8.dp)
+                            }
+                            // 作者
+                            expanded(flex = 1f) {
+                                Text(articleData.author)
+                            }
+                            // 发布时间
+                            inflexible {
+                                Text(articleData.niceDate)
                             }
                         }
                     }
+                    // 垂直间距
                     inflexible {
-                        Padding(right = 16.dp) {
-                            createImage(url = "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2018939532,1617516463&fm=26&gp=0.jpg")?.let { image ->
-                                Container(width = 80.dp, height = 80.dp) {
-                                    DrawImage(image)
+                        HeightSpacer(height = 10.dp)
+                    }
+                    inflexible {
+                        FlexRow(
+                            mainAxisSize = LayoutSize.Expand
+                        ) {
+                            expanded(flex = 1f) {
+                                Surface(color = Color.Red) {
+                                    FlexColumn(modifier = ExpandedHeight) {
+                                        expanded(flex = 1f) {
+                                            // 标题
+                                            Padding(right = 10.dp) {
+                                                Text(text = articleData.title,maxLines = 2,overflow = TextOverflow.Ellipsis)
+                                            }
+                                        }
+                                        inflexible {
+                                            // 公众号
+                                            Text(text = articleData.superChapterName + articleData.author)
+                                        }
+                                    }
+                                }
+                            }
+                            // 右侧文章缩略图
+                            inflexible {
+                                createImage(url = "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2018939532,1617516463&fm=26&gp=0.jpg")?.let { image ->
+                                    Container(width = 80.dp, height = 80.dp) {
+                                        DrawImage(image)
+                                    }
                                 }
                             }
                         }
