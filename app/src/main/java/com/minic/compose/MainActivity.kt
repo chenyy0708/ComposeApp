@@ -119,17 +119,21 @@ fun CreateArticleItem(articleData: ArticleData) {
                         ) {
                             expanded(flex = 1f) {
                                 Surface(color = Color.Red) {
-                                    FlexColumn(modifier = ExpandedHeight) {
-                                        expanded(flex = 1f) {
-                                            // 标题
-                                            Padding(right = 10.dp) {
-                                                Text(text = articleData.title,maxLines = 2,overflow = TextOverflow.Ellipsis)
-                                            }
+                                    Column(
+                                        modifier = ExpandedHeight,
+                                        crossAxisSize = LayoutSize.Expand,
+                                        mainAxisSize = LayoutSize.Expand
+                                    ) {
+                                        // 标题
+                                        Padding(right = 10.dp) {
+                                            Text(
+                                                text = articleData.title,
+                                                maxLines = 2,
+                                                overflow = TextOverflow.Ellipsis
+                                            )
                                         }
-                                        inflexible {
-                                            // 公众号
-                                            Text(text = articleData.superChapterName + articleData.author)
-                                        }
+                                        // 公众号
+                                        Text(text = articleData.superChapterName + articleData.author)
                                     }
                                 }
                             }
