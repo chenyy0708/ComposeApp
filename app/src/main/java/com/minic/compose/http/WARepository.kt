@@ -2,8 +2,9 @@ package com.minic.kt.data
 
 import com.minic.kt.data.api.WAndroidService
 import com.minic.kt.data.model.BResponse
-import com.minic.kt.data.model.gank.PagingData
-import com.minic.kt.data.model.gank.home.*
+import com.minic.kt.data.model.gank.home.Article
+import com.minic.kt.data.model.gank.home.ArticleData
+import kotlinx.coroutines.Deferred
 
 /**
  * 描述: 网络请求
@@ -15,6 +16,7 @@ object WARepository {
     private val apiService by lazy {
         RetrofitProvider.createService(WAndroidService::class.java)
     }
-    suspend fun article(page: Int): BResponse<Article> = apiService.article(page)
-    suspend fun articleTop(): BResponse<MutableList<ArticleData>> = apiService.articleTop()
+
+    fun article(page: Int): Deferred<BResponse<Article>> = apiService.article(page)
+    fun articleTop(): Deferred<BResponse<MutableList<ArticleData>>> = apiService.articleTop()
 }
