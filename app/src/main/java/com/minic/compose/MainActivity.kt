@@ -117,23 +117,27 @@ fun CreateArticleItem(articleData: ArticleData) {
                         FlexRow(
                             mainAxisSize = LayoutSize.Expand
                         ) {
-                            expanded(flex = 1f) {
+                            flexible(1f) {
                                 Surface(color = Color.Red) {
-                                    Column(
-                                        modifier = ExpandedHeight,
+                                    FlexColumn(
                                         crossAxisSize = LayoutSize.Expand,
                                         mainAxisSize = LayoutSize.Expand
                                     ) {
-                                        // 标题
-                                        Padding(right = 10.dp) {
-                                            Text(
-                                                text = articleData.title,
-                                                maxLines = 2,
-                                                overflow = TextOverflow.Ellipsis
-                                            )
+                                        flexible(1f) {
+                                            // 标题
+                                            Padding(right = 10.dp) {
+                                                Text(
+                                                    text = articleData.title,
+                                                    maxLines = 2,
+                                                    overflow = TextOverflow.Ellipsis
+                                                )
+                                            }
                                         }
-                                        // 公众号
-                                        Text(text = articleData.superChapterName + articleData.author)
+
+                                        inflexible {
+                                            // 公众号
+                                            Text(text = articleData.superChapterName + articleData.author)
+                                        }
                                     }
                                 }
                             }
