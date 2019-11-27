@@ -9,19 +9,22 @@ import androidx.ui.core.Opacity
 import androidx.ui.core.Text
 import androidx.ui.core.dp
 import androidx.ui.core.setContent
+import androidx.ui.engine.geometry.Shape
 import androidx.ui.foundation.Clickable
 import androidx.ui.foundation.DrawImage
 import androidx.ui.foundation.VerticalScroller
-import androidx.ui.graphics.Color
 import androidx.ui.layout.*
 import androidx.ui.material.Divider
 import androidx.ui.material.MaterialTheme
 import androidx.ui.material.ripple.Ripple
-import androidx.ui.material.surface.Surface
 import androidx.ui.text.style.TextOverflow
 import com.minic.compose.expansion.createImage
 import com.minic.compose.expansion.logD
 import com.minic.compose.utils.PicassoLoader
+import com.minic.compose.view.Tv11
+import com.minic.compose.view.Tv12
+import com.minic.compose.view.Tv13
+import com.minic.compose.view.Tv15
 import com.minic.kt.data.WARepository
 import com.minic.kt.data.model.gank.home.ArticleData
 import kotlinx.coroutines.Dispatchers
@@ -101,11 +104,11 @@ fun CreateArticleItem(articleData: ArticleData) {
                             }
                             // 作者
                             expanded(flex = 1f) {
-                                Text(articleData.author)
+                                Text(articleData.author, style = Tv12())
                             }
                             // 发布时间
                             inflexible {
-                                Text(articleData.niceDate)
+                                Text(articleData.niceDate, style = Tv13())
                             }
                         }
                     }
@@ -113,32 +116,26 @@ fun CreateArticleItem(articleData: ArticleData) {
                     inflexible {
                         HeightSpacer(height = 10.dp)
                     }
-                    inflexible {
+                    expanded(1f) {
                         FlexRow(
                             mainAxisSize = LayoutSize.Expand
                         ) {
                             flexible(1f) {
-                                Surface(color = Color.Red) {
-                                    FlexColumn(
-                                        crossAxisSize = LayoutSize.Expand,
-                                        mainAxisSize = LayoutSize.Expand
-                                    ) {
-                                        flexible(1f) {
-                                            // 标题
-                                            Padding(right = 10.dp) {
-                                                Text(
-                                                    text = articleData.title,
-                                                    maxLines = 2,
-                                                    overflow = TextOverflow.Ellipsis
-                                                )
-                                            }
-                                        }
-
-                                        inflexible {
-                                            // 公众号
-                                            Text(text = articleData.superChapterName + articleData.author)
+                                FlexColumn(
+                                    crossAxisSize = LayoutSize.Expand,
+                                    mainAxisSize = LayoutSize.Expand
+                                ) {
+                                    flexible(1f) {
+                                        // 标题
+                                        Padding(right = 10.dp) {
+                                            Text(
+                                                text = articleData.title,
+                                                maxLines = 2,
+                                                overflow = TextOverflow.Ellipsis, style = Tv15()
+                                            )
                                         }
                                     }
+
                                 }
                             }
                             // 右侧文章缩略图
@@ -149,6 +146,17 @@ fun CreateArticleItem(articleData: ArticleData) {
                                     }
                                 }
                             }
+                        }
+                    }
+                    inflexible {
+                        // 公众号
+                        Row(
+                            modifier = ExpandedHeight,
+                            mainAxisSize = LayoutSize.Wrap,
+                            crossAxisSize = LayoutSize.Wrap
+                        ) {
+                            Text(text = articleData.superChapterName,style = Tv11())
+                            Text(text = articleData.author,style = Tv11())
                         }
                     }
                 }
