@@ -1,14 +1,9 @@
-package com.minic.compose
+package com.minic.compose.ui.compose.home
 
-import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.Composable
-import androidx.compose.Model
-import androidx.compose.frames.ModelList
 import androidx.ui.core.Opacity
 import androidx.ui.core.Text
 import androidx.ui.core.dp
-import androidx.ui.core.setContent
 import androidx.ui.foundation.Clickable
 import androidx.ui.foundation.DrawImage
 import androidx.ui.foundation.VerticalScroller
@@ -21,6 +16,8 @@ import androidx.ui.material.MaterialTheme
 import androidx.ui.material.ripple.Ripple
 import androidx.ui.material.surface.Surface
 import androidx.ui.text.style.TextOverflow
+import com.minic.compose.App
+import com.minic.compose.R
 import com.minic.compose.expansion.createImage
 import com.minic.compose.expansion.logD
 import com.minic.compose.utils.PicassoLoader
@@ -28,50 +25,19 @@ import com.minic.compose.view.Tv11
 import com.minic.compose.view.Tv12
 import com.minic.compose.view.Tv13
 import com.minic.compose.view.Tv15
-import com.minic.kt.data.WARepository
 import com.minic.kt.data.model.gank.home.ArticleData
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            MyApp(HomeArticles.mArticles)
-        }
-        GlobalScope.launch {
-            val articleTops = WARepository.articleTop().await()
-            val articles = WARepository.article(1).await()
-            withContext(Dispatchers.Main) {
-                articleTops.data.forEach { it.isTopping = true }
-                HomeArticles.mArticles.addAll(articleTops.data)
-                HomeArticles.mArticles.addAll(articles.data.datas)
-            }
-        }
-    }
-}
 
-@Model
-object HomeArticles {
-    // 文章
-    val mArticles = ModelList<ArticleData>()
-}
+/**
+ * 描述: 主页面Compose
+ * 作者: ChenYy
+ * 日期: 2019/11/28 10:57
+ */
 
-@Composable
-fun MyApp(articles: MutableList<ArticleData>) {
-    MaterialTheme {
-        VerticalScroller {
-            Column {
-                ArticleItems(articles)
-            }
-        }
-    }
-}
 
 @Composable
 fun ArticleItems(articles: MutableList<ArticleData>) {
+    // 文章列表
     articles.forEach {
         CreateArticleItem(it)
         ArticleDivider()
@@ -96,7 +62,9 @@ fun CreateArticleItem(articleData: ArticleData) {
                                 inflexible {
                                     createImage(
                                         type = PicassoLoader.ROUND,
-                                        url = App.INSTANCE.resources.getStringArray(R.array.author_imgs).random()
+                                        url = App.INSTANCE.resources.getStringArray(
+                                            R.array.author_imgs
+                                        ).random()
                                     )?.let { image ->
                                         Container(width = 25.dp, height = 25.dp) {
                                             DrawImage(image)
@@ -209,8 +177,3 @@ private fun ArticleDivider() {
         }
     }
 }
-
-
-
-
-
