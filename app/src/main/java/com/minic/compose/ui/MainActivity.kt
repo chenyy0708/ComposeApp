@@ -10,8 +10,10 @@ import androidx.ui.foundation.VerticalScroller
 import androidx.ui.layout.Column
 import androidx.ui.material.MaterialTheme
 import com.minic.compose.ui.compose.home.ArticleItems
+import com.minic.compose.ui.compose.home.HomeBanner
 import com.minic.kt.data.WARepository
 import com.minic.kt.data.model.gank.home.ArticleData
+import com.minic.kt.data.model.gank.home.BannerData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -26,10 +28,12 @@ class MainActivity : AppCompatActivity() {
         GlobalScope.launch {
             val articleTops = WARepository.articleTop().await()
             val articles = WARepository.article(1).await()
+            val banner = WARepository.banners().await()
             withContext(Dispatchers.Main) {
                 articleTops.data.forEach { it.isTopping = true }
                 HomeArticles.mArticles.addAll(articleTops.data)
                 HomeArticles.mArticles.addAll(articles.data.datas)
+                HomeArticles.mBanner.addAll(banner.data)
             }
         }
     }
@@ -39,6 +43,8 @@ class MainActivity : AppCompatActivity() {
 object HomeArticles {
     // 文章
     val mArticles = ModelList<ArticleData>()
+    // 首页Banner
+    val mBanner = ModelList<BannerData>()
 }
 
 @Composable
@@ -46,6 +52,7 @@ fun MyApp(articles: MutableList<ArticleData>) {
     MaterialTheme {
         VerticalScroller {
             Column {
+                HomeBanner(banner = HomeArticles.mBanner)
                 ArticleItems(articles)
             }
         }

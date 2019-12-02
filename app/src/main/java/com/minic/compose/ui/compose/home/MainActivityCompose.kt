@@ -1,6 +1,7 @@
 package com.minic.compose.ui.compose.home
 
 import androidx.compose.Composable
+import androidx.ui.core.Dp
 import androidx.ui.core.Opacity
 import androidx.ui.core.Text
 import androidx.ui.core.dp
@@ -24,6 +25,7 @@ import com.minic.compose.view.Tv12
 import com.minic.compose.view.Tv13
 import com.minic.compose.view.Tv15
 import com.minic.kt.data.model.gank.home.ArticleData
+import com.minic.kt.data.model.gank.home.BannerData
 
 
 /**
@@ -172,6 +174,20 @@ private fun ArticleDivider() {
     Padding(left = 14.dp, right = 14.dp) {
         Opacity(0.08f) {
             Divider()
+        }
+    }
+}
+
+
+@Composable
+fun HomeBanner(banner: MutableList<BannerData>) {
+    if (banner.isEmpty()) return
+    createImage(url = banner[0].imagePath)?.let { image ->
+        Container(
+            width = Dp(App.INSTANCE.resources.displayMetrics.widthPixels.toFloat()),
+            height = 200.dp
+        ) {
+            DrawImage(image)
         }
     }
 }

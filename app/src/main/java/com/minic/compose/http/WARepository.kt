@@ -4,6 +4,7 @@ import com.minic.kt.data.api.WAndroidService
 import com.minic.kt.data.model.BResponse
 import com.minic.kt.data.model.gank.home.Article
 import com.minic.kt.data.model.gank.home.ArticleData
+import com.minic.kt.data.model.gank.home.BannerData
 import kotlinx.coroutines.Deferred
 
 /**
@@ -19,4 +20,5 @@ object WARepository {
 
     fun article(page: Int): Deferred<BResponse<Article>> = apiService.article(page)
     fun articleTop(): Deferred<BResponse<MutableList<ArticleData>>> = apiService.articleTop()
+    fun banners(): Deferred<BResponse<MutableList<BannerData>>> = apiService.banners()
 }
