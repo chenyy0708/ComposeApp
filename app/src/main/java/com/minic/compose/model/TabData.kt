@@ -1,6 +1,7 @@
 package com.minic.compose.model
 
 import androidx.ui.graphics.Image
+import com.minic.compose.widget.TabIcon
 
 
 /**
@@ -10,5 +11,5 @@ import androidx.ui.graphics.Image
  */
 data class TabData(
     val tabName:String,
-    val tabIcon: Image
+    val tabIcon: TabIcon
 )

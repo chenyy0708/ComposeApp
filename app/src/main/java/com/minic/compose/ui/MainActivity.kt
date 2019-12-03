@@ -11,14 +11,14 @@ import androidx.ui.graphics.imageFromResource
 import androidx.ui.layout.Column
 import androidx.ui.layout.FlexColumn
 import androidx.ui.material.MaterialTheme
-import androidx.ui.material.Tab
-import androidx.ui.material.TabRow
 import com.minic.compose.App
 import com.minic.compose.R
-import com.minic.compose.expansion.logD
 import com.minic.compose.model.TabData
 import com.minic.compose.ui.compose.home.ArticleItems
 import com.minic.compose.ui.compose.home.HomeBanner
+import com.minic.compose.widget.BottomNavigationView
+import com.minic.compose.widget.NavigationTab
+import com.minic.compose.widget.TabIcon
 import com.minic.kt.data.WARepository
 import com.minic.kt.data.model.gank.home.ArticleData
 import com.minic.kt.data.model.gank.home.BannerData
@@ -54,10 +54,58 @@ object HomeArticles {
     // 首页Banner
     val mBanner = ModelList<BannerData>()
     val mTabData = ModelList<TabData>().apply {
-        add(TabData("首页", imageFromResource(App.INSTANCE.resources, R.drawable.header)))
-        add(TabData("导航", imageFromResource(App.INSTANCE.resources, R.drawable.header)))
-        add(TabData("体系", imageFromResource(App.INSTANCE.resources, R.drawable.header)))
-        add(TabData("我的", imageFromResource(App.INSTANCE.resources, R.drawable.header)))
+        add(
+            TabData(
+                "首页", TabIcon(
+                    imageFromResource(App.INSTANCE.resources, R.drawable.icon_home_pager_selected),
+                    imageFromResource(
+                        App.INSTANCE.resources,
+                        R.drawable.icon_home_pager_not_selected
+                    )
+                )
+            )
+        )
+        add(
+            TabData(
+                "项目", TabIcon(
+                    imageFromResource(App.INSTANCE.resources, R.drawable.icon_project_selected),
+                    imageFromResource(App.INSTANCE.resources, R.drawable.icon_project_not_selected)
+                )
+            )
+        )
+        add(
+            TabData(
+                "公众号", TabIcon(
+                    imageFromResource(
+                        App.INSTANCE.resources,
+                        R.drawable.icon_knowledge_hierarchy_selected
+                    ),
+                    imageFromResource(
+                        App.INSTANCE.resources,
+                        R.drawable.icon_knowledge_hierarchy_not_selected
+                    )
+                )
+            )
+        )
+        add(
+            TabData(
+                "体系", TabIcon(
+                    imageFromResource(App.INSTANCE.resources, R.drawable.icon_navigation_selected),
+                    imageFromResource(
+                        App.INSTANCE.resources,
+                        R.drawable.icon_navigation_not_selected
+                    )
+                )
+            )
+        )
+        add(
+            TabData(
+                "我的", TabIcon(
+                    imageFromResource(App.INSTANCE.resources, R.drawable.icon_me_selected),
+                    imageFromResource(App.INSTANCE.resources, R.drawable.icon_me_not_selected)
+                )
+            )
+        )
     }
 }
 
@@ -75,15 +123,13 @@ fun MyApp(articles: MutableList<ArticleData>) {
                 }
             }
             inflexible {
-                TabRow(
+                BottomNavigationView(
                     items = HomeArticles.mTabData,
-                    scrollable = false,
-                    selectedIndex = 0,
-                    indicatorContainer = {}
-                ) { position, data ->
-                    Tab(selected = true, onSelected = {
-                        logD(msg = "点击事件")
-                    }, text = data.tabName, icon = data.tabIcon)
+                    selectedIndex = 0
+                ) { position, data, selectedIndex ->
+                    NavigationTab(selected = selectedIndex == position, onSelected = {
+                        // 处理页面切换
+                    }, text = data.tabName, icon = data.tabIcon, position = position)
                 }
             }
         }
